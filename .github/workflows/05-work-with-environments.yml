@@ -1,4 +1,5 @@
-name: Manually trigger an Azure Machine Learning job
+name: Challenge 5 - Work with environments
+
 # Controls when the workflow will run 
 on:
   workflow_dispatch:
@@ -7,6 +8,22 @@ on:
     branches: [ "main" ]
 
 jobs:
+  linting:
+    name: linting
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@main
+    - name: Use Python version 3.8
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.8'
+    - name: Install Flake8
+      run: |
+        python -m pip install flake8
+    - name: Run linting tests
+      run: | 
+        flake8 src/model/
   experiment:
     runs-on: ubuntu-latest
     environment:
