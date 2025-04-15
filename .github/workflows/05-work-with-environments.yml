@@ -4,8 +4,8 @@ name: Challenge 5 - Work with environments
 on:
   workflow_dispatch:
   # Triggers the workflow on push but only for the "main" branch
-  push:
-    branches: [ "main" ]
+  #push:
+  #  branches: [ "main" ]
 
 jobs:
   linting:
