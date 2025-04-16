@@ -1,4 +1,4 @@
 $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
-#model: azureml:my-model:1
+model: azureml:diabetes-gs-model:latest
 instance_type: Standard_DS3_v2
 instance_count: 1
