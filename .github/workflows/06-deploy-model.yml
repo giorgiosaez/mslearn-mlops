@@ -18,11 +18,6 @@ jobs:
     steps:
     - name: Check out repo
       uses: actions/checkout@main    
-    - name: Run a one-line script     without  
-      run: echo Hello, world! $env.DEPLOYMENTNAME
-    - name: Run a one-line script       with {{
-      run: echo Hello, world! ${{env.DEPLOYMENTNAME}}
-      
     - name: Use Python version 3.8
       uses: actions/setup-python@v3
       with:
@@ -81,7 +76,7 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
       - name: Create model as an asset in Azure ML
-        run: az ml model create --name $MODELNAME --path azureml://jobs/$RUNID/outputs/artifacts/paths/model/ --type mlflow_model --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc   
+        run: az ml model create --name ${{env.MODELNAME}} --path azureml://jobs/${{env.RUNID}}/outputs/artifacts/paths/model/ --type mlflow_model --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc   
   create-endpoint:
     name: Create Endpoint
     runs-on: ubuntu-latest
@@ -98,7 +93,7 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
       - name: Create an Online Endpoint in Azure ML
-        run: az ml online-endpoint create -f src/create-endpoint.yml --name $ENDPOINTNAME --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc
+        run: az ml online-endpoint create -f src/create-endpoint.yml --name ${{env.ENDPOINTNAME}} --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc
   create-deployment:
     name: Create Deployment
     runs-on: ubuntu-latest
@@ -115,4 +110,4 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
       - name: Create an Online Deployment in previously created endpoint in Azure ML
-        run: az ml online-deployment create -f src/deployment.yml --model-name $MODELNAME --endpoint-name $ENDPOINTNAME --name $DEPLOYMENTNAME --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc
+        run: az ml online-deployment create -f src/deployment.yml --model-name ${{env.MODELNAME}} --endpoint-name ${{env.ENDPOINTNAME}} --name ${{env.DEPLOYMENTNAME}} --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc
