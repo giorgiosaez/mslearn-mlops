@@ -8,9 +8,9 @@ on:
   #  branches: [ "main" ]
 env:
   RUNID : runid-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
-  MODELNAME : model-${{RUNID}}
-  ENDPOINTNAME : endpoint-${{RUNID}}
-  DEPLOYMENTNAME : deployment-${{RUNID}}
+  MODELNAME : model-${{env.RUNID}}
+  ENDPOINTNAME : endpoint-${{env.RUNID}}
+  DEPLOYMENTNAME : deployment-${{env.RUNID}}
 jobs:
   linting:
     name: linting
@@ -19,9 +19,9 @@ jobs:
     - name: Check out repo
       uses: actions/checkout@main    
     - name: Run a one-line script     without  
-      run: echo Hello, world! $DEPLOYMENTNAME
+      run: echo Hello, world! $env.DEPLOYMENTNAME
     - name: Run a one-line script       with {{
-      run: echo Hello, world! ${{DEPLOYMENTNAME}}
+      run: echo Hello, world! ${{env.DEPLOYMENTNAME}}
       
     - name: Use Python version 3.8
       uses: actions/setup-python@v3
