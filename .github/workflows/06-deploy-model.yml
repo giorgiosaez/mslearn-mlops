@@ -8,16 +8,21 @@ on:
   #  branches: [ "main" ]
 env:
   RUNID : runid-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
-  MODELNAME : model-$RUNID
-  ENDPOINTNAME : endpoint-$RUNID
-  DEPLOYMENTNAME : deployment-$RUNID
+  MODELNAME : model-${{RUNID}}
+  ENDPOINTNAME : endpoint-${{RUNID}}
+  DEPLOYMENTNAME : deployment-${{RUNID}}
 jobs:
   linting:
     name: linting
     runs-on: ubuntu-latest
     steps:
     - name: Check out repo
-      uses: actions/checkout@main
+      uses: actions/checkout@main    
+    - name: Run a one-line script     without  
+      run: echo Hello, world! $DEPLOYMENTNAME
+    - name: Run a one-line script       with {{
+      run: echo Hello, world! ${{DEPLOYMENTNAME}}
+      
     - name: Use Python version 3.8
       uses: actions/setup-python@v3
       with:
@@ -76,7 +81,7 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
       - name: Create model as an asset in Azure ML
-        run: az ml model create --name $MODELNAME --path azureml://jobs/$env.RUNID/outputs/artifacts/paths/model/ --type mlflow_model --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc   
+        run: az ml model create --name $MODELNAME --path azureml://jobs/$RUNID/outputs/artifacts/paths/model/ --type mlflow_model --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc   
   create-endpoint:
     name: Create Endpoint
     runs-on: ubuntu-latest
