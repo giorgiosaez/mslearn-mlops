@@ -8,9 +8,9 @@ on:
   #  branches: [ "main" ]
 env:
   RUNID : runid-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
-  MODELNAME : model-${{env.RUNID}}
-  ENDPOINTNAME : endpoint-${{env.RUNID}}
-  DEPLOYMENTNAME : deployment-${{env.RUNID}}
+  MODELNAME : model-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
+  ENDPOINTNAME : endpoint-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
+  DEPLOYMENTNAME : deployment-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
 jobs:
   linting:
     name: linting
