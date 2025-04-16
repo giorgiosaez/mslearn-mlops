@@ -134,7 +134,7 @@ jobs:
   create-batch-deployment:
     name: Create Batch Deployment
     runs-on: ubuntu-latest
-    needs: [create-endpoint]
+    needs: [batch-endpoint]
     environment:
       name: prod
     steps:
