@@ -11,6 +11,7 @@ env:
   RUNID : runid-${{ github.run_id }}-${{ github.run_attempt }}-gs
   MODELNAME : diabetes-gs-model
   ENDPOINTNAME : endpoint-${{ github.run_id }}-${{ github.run_attempt }}-gs
+  BATCHENDPOINTNAME : batch-${{ github.run_id }}-${{ github.run_attempt }}-gs
   DEPLOYMENTNAME : deployment-${{ github.run_id }}-${{ github.run_attempt }}-gs
 jobs:
   linting:
@@ -112,3 +113,20 @@ jobs:
           creds: ${{secrets.AZURE_CREDENTIALS}}
       - name: Create an Online Deployment in previously created endpoint in Azure ML
         run: az ml online-deployment create -f src/deployment.yml --endpoint-name ${{env.ENDPOINTNAME}} --name ${{env.DEPLOYMENTNAME}} --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc
+  create-batch-deployment:
+    name: Create Batch Deployment
+    runs-on: ubuntu-latest
+    needs: [create-endpoint]
+    environment:
+      name: prod
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@main
+      - name: Install az ml extension
+        run: az extension add -n ml -y
+      - name: "Az CLI login"
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: Create an Online Deployment in previously created endpoint in Azure ML
+        run: az ml batch-deployment create -f src/batch-deployment.yml --endpoint-name ${{env.BATCHENDPOINTNAME}} --name ${{env.DEPLOYMENTNAME}} --resource-group rg-tccc-ms-training-for-dts-dsml-poc --workspace-name aml-tccc-ms-training-dts-dsml-poc
