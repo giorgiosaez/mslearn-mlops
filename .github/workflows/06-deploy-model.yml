@@ -6,11 +6,12 @@ on:
   # Triggers the workflow on push but only for the "main" branch
   #push:
   #  branches: [ "main" ]
-env:
-  RUNID : runid-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
-  MODELNAME : model-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
-  ENDPOINTNAME : endpoint-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
-  DEPLOYMENTNAME : deployment-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
+env:    
+  #RUNID : runid-${{ github.run_id }}-${{ github.run_attempt }}-${{github.repository_owner}}
+  RUNID : runid-${{ github.run_id }}-${{ github.run_attempt }}-gs
+  MODELNAME : model-${{ github.run_id }}-${{ github.run_attempt }}-gs
+  ENDPOINTNAME : endpoint-${{ github.run_id }}-${{ github.run_attempt }}-gs
+  DEPLOYMENTNAME : deployment-${{ github.run_id }}-${{ github.run_attempt }}-gs
 jobs:
   linting:
     name: linting
