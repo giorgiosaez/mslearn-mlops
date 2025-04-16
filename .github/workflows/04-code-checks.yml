@@ -1,4 +1,4 @@
-name: Code checks
+name: Challenge 4: Work with linting and unit testing
 
 on:
   workflow_dispatch:
