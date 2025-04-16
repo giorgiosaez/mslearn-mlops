@@ -1,4 +1,5 @@
 $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
 model: azureml:diabetes-gs-model@latest
+environment: azureml://registries/azureml/environments/mlflow-model-inference/versions/1
 instance_type: Standard_DS3_v2
 instance_count: 1
